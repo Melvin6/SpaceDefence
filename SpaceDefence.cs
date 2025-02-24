@@ -15,7 +15,7 @@ namespace SpaceDefence
             _graphics.IsFullScreen = false;
 
             // Set the size of the screen
-            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferWidth = 1910;
             _graphics.PreferredBackBufferHeight = 1080;
             
             Content.RootDirectory = "Content";
