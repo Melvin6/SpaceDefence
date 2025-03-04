@@ -80,7 +80,7 @@ namespace SpaceDefence
         public static float GetAngle(Vector2 direction)
         {
             // TODO: Implement
-            return 0;
+            return MathF.Atan2(direction.X, -direction.Y);
         }
 
 
@@ -91,7 +91,13 @@ namespace SpaceDefence
         public static Vector2 GetDirection(Vector2 point1, Vector2 point2)
         {
             // TODO Implement, currently pointing up.
-            return -Vector2.UnitY;
+            Vector2 direction = point2 - point1;
+            if (direction.LengthSquared() > 0)
+                direction = Vector2.Normalize(direction);
+
+            return direction;    
+
+            // return -Vector2.UnitY;
         }
 
 

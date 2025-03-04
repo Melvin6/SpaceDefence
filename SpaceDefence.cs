@@ -12,10 +12,10 @@ namespace SpaceDefence
         public SpaceDefence()
         {
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.IsFullScreen = false;
+            _graphics.IsFullScreen = true;
 
             // Set the size of the screen
-            _graphics.PreferredBackBufferWidth = 1910;
+            _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
             
             Content.RootDirectory = "Content";
