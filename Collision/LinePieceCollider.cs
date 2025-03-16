@@ -121,7 +121,10 @@ namespace SpaceDefence
         public override bool Intersects(CircleCollider other)
         {
             // TODO Implement hint, you can use the NearestPointOnLine function defined below.
-            return false;
+            Vector2 nearestPoint = NearestPointOnLine(other.Center);
+            float distance = Vector2.DistanceSquared(nearestPoint, other.Center);
+
+            return distance <= other.Radius * other.Radius;
         }
 
         /// <summary>
@@ -132,6 +135,30 @@ namespace SpaceDefence
         public override bool Intersects(RectangleCollider other)
         {
             // TODO Implement
+            if (!this.GetBoundingBox().Intersects(other.shape))
+                return false;
+            Vector2 topLeft = new Vector2(other.shape.Left, other.shape.Top);
+            Vector2 topRight = new Vector2(other.shape.Right, other.shape.Top);
+            Vector2 bottomLeft = new Vector2(other.shape.Left, other.shape.Bottom);
+            Vector2 bottomRight = new Vector2(other.shape.Right, other.shape.Bottom);
+
+            LinePieceCollider[] edges = new LinePieceCollider[]
+            {
+                new LinePieceCollider(topLeft, topRight),
+                new LinePieceCollider(topRight, bottomRight),
+                new LinePieceCollider(bottomRight, bottomLeft),
+                new LinePieceCollider(bottomLeft, topLeft)
+            };
+
+            // Check if any edge intersects with this line
+            foreach (var edge in edges)
+            {
+                if (this.GetIntersection(edge) != null)
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 
@@ -143,6 +170,22 @@ namespace SpaceDefence
         public Vector2 GetIntersection(LinePieceCollider Other)
         {
             // TODO Implement
+             float d = (this.End.X - this.Start.X) * (Other.End.Y - Other.Start.Y) - (this.End.Y - this.Start.Y) * (Other.End.X - Other.Start.X);
+    
+            if (d == 0) 
+                return Vector2.Zero;
+
+            float u = ((Other.Start.X - this.Start.X) * (Other.End.Y - Other.Start.Y) - (Other.Start.Y - this.Start.Y) * (Other.End.X - Other.Start.X)) / d;
+                
+            float v = ((Other.Start.X - this.Start.X) * (this.End.Y - this.Start.Y) - (Other.Start.Y - this.Start.Y) * (this.End.X - this.Start.X)) / d;
+
+            if (u >= 0 && u <= 1 && v >= 0 && v <= 1)
+            {
+                return new Vector2(
+                    this.Start.X + u * (this.End.X - this.Start.X),
+                    this.Start.Y + u * (this.End.Y - this.Start.Y)
+                );
+            }
             return Vector2.Zero;
         }
 
@@ -154,7 +197,14 @@ namespace SpaceDefence
         public Vector2 NearestPointOnLine(Vector2 other)
         {
             // TODO Implement
-            return Vector2.Zero;
+            Vector2 direction = End - Start;
+            Vector2 AO = other - Start;
+
+            float t = Vector2.Dot(AO, direction) / Vector2.Dot(direction, direction);
+            t = Math.Clamp(t, 0f, 1f);
+            Vector2 nearestPoint = Start + t * direction;
+
+            return nearestPoint;
         }
 
         /// <summary>

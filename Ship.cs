@@ -73,10 +73,10 @@ namespace SpaceDefence
         private void movement(InputManager inputManager)
         {
             Vector2 inputDirection = Vector2.Zero;
-            if (inputManager.IsKeyDown(Keys.W)) inputDirection.Y -= 1;
-            if (inputManager.IsKeyDown(Keys.S)) inputDirection.Y += 1;
-            if (inputManager.IsKeyDown(Keys.A)) inputDirection.X -= 1;
-            if (inputManager.IsKeyDown(Keys.D)) inputDirection.X += 1;
+            if (inputManager.MoveUp()) inputDirection.Y -= 1;
+            if (inputManager.MoveDown()) inputDirection.Y += 1;
+            if (inputManager.MoveLeft()) inputDirection.X -= 1;
+            if (inputManager.MoveRight()) inputDirection.X += 1;
 
             if (inputDirection != Vector2.Zero)
             {
@@ -109,23 +109,22 @@ namespace SpaceDefence
             int screenWidth = 1280;
             int screenHeight = 720;
 
-            // Screen wrapping logic:
-            if (position.X < 0)  // If the ship goes off the left side
+            if (position.X < 0)
             {
-                position.X = screenWidth;  // Move it to the right side
+                position.X = screenWidth;
             }
-            else if (position.X > screenWidth)  // If the ship goes off the right side
+            else if (position.X > screenWidth)
             {
-                position.X = 0;  // Move it to the left side
+                position.X = 0;
             }
 
-            if (position.Y < 0)  // If the ship goes off the top side
+            if (position.Y < 0)
             {
-                position.Y = screenHeight;  // Move it to the bottom
+                position.Y = screenHeight;
             }
-            else if (position.Y > screenHeight)  // If the ship goes off the bottom side
+            else if (position.Y > screenHeight)
             {
-                position.Y = 0;  // Move it to the top
+                position.Y = 0;
             }
         }
 
@@ -137,10 +136,19 @@ namespace SpaceDefence
             base.Update(gameTime);
         }
 
+        public override void OnCollision(GameObject other)
+        {
+            if (other is Alien)
+            {
+                GameManager gm = GameManager.GetGameManager();
+                gm.GameOver();
+            }
+            base.OnCollision(other);
+        }
+
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            // spriteBatch.Draw(ship_body, _rectangleCollider.shape, Color.White);
-
+            spriteBatch.Draw(ship_body, _rectangleCollider.shape, Color.White);
             spriteBatch.Draw(
                 ship_body,  
                 new Vector2(_rectangleCollider.shape.Center.X, _rectangleCollider.shape.Center.Y),
@@ -173,8 +181,8 @@ namespace SpaceDefence
         {
             Point center = new Point(position.X + ship_body.Width / 2, position.Y + ship_body.Height / 2);
 
-            int newWidth = (int)(Math.Abs(Math.Cos(rotation)) * ship_body.Width + Math.Abs(Math.Sin(rotation)) * ship_body.Height);
-            int newHeight = (int)(Math.Abs(Math.Sin(rotation)) * ship_body.Width + Math.Abs(Math.Cos(rotation)) * ship_body.Height);
+            int newWidth = _rectangleCollider.shape.Width;
+            int newHeight = _rectangleCollider.shape.Height;
 
             _rectangleCollider = new RectangleCollider(new Rectangle(
                 center.X - newWidth / 2, 

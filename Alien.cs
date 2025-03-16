@@ -9,6 +9,8 @@ namespace SpaceDefence
         private CircleCollider _circleCollider;
         private Texture2D _texture;
         private float playerClearance = 100;
+        private static float speedMultiplier = 1.0f;
+        private Vector2 velocity;
 
         public Alien() 
         {
@@ -24,10 +26,30 @@ namespace SpaceDefence
             RandomMove();
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            Movement();
+            base.Update(gameTime);
+        }
+
         public override void OnCollision(GameObject other)
         {
             RandomMove();
             base.OnCollision(other);
+        }
+
+        private void Movement()
+        {
+            GameManager gm = GameManager.GetGameManager();
+            Vector2 playerPos = gm.Player.GetPosition().Center.ToVector2();
+            Vector2 direction = playerPos - _circleCollider.Center;
+
+            if (direction.Length() > 0)
+            {
+                direction.Normalize();
+                velocity = direction * (100f * speedMultiplier) * (float)GameManager.GetGameManager().Game.TargetElapsedTime.TotalSeconds;
+                _circleCollider.Center += velocity;
+            }
         }
 
         public void RandomMove()

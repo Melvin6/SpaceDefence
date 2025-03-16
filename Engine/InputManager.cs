@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection.PortableExecutable;
 using Microsoft.Xna.Framework.Input;
 
@@ -87,6 +88,26 @@ namespace SpaceDefence
         public bool RightMousePress()
         {
             return CurrentMouseState.RightButton == ButtonState.Pressed && LastMouseState.RightButton == ButtonState.Released;
+        }
+
+        public bool MoveUp()
+        {
+            return IsKeyDown(Keys.W);
+        }
+
+        public bool MoveDown()
+        {
+            return IsKeyDown(Keys.S);
+        }
+
+        public bool MoveLeft()
+        {
+            return IsKeyDown(Keys.A);
+        }
+
+        public bool MoveRight()
+        {
+            return IsKeyDown(Keys.D);
         }
     }
 }

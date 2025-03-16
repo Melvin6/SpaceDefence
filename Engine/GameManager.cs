@@ -17,6 +17,7 @@ namespace SpaceDefence
         private List<GameObject> _toBeRemoved;
         private List<GameObject> _toBeAdded;
         private ContentManager _content;
+        private GameState _state;
 
         public Random RNG { get; private set; }
         public Ship Player { get; private set; }
@@ -34,6 +35,7 @@ namespace SpaceDefence
             _gameObjects = new List<GameObject>();
             _toBeRemoved = new List<GameObject>();
             _toBeAdded = new List<GameObject>();
+            _state = GameState.Running;
             InputManager = new InputManager();
             RNG = new Random();
         }
@@ -82,18 +84,25 @@ namespace SpaceDefence
         {
             InputManager.Update();
 
-            // Handle input
-            HandleInput(InputManager);
+            if (_state == GameState.Running)
+            {
+                HandleInput(InputManager);
+                CheckCollision();
+                UpdateGame(gameTime);
+            }
+            else if (_state == GameState.GameOver)
+            {
+                UpdateGameOver(gameTime);
+            }
+        }
 
-
+        public void UpdateGame(GameTime gameTime)
+        {
             // Update
             foreach (GameObject gameObject in _gameObjects)
             {
                 gameObject.Update(gameTime);
             }
-
-            // Check Collission
-            CheckCollision();
 
             foreach (GameObject gameObject in _toBeAdded)
             {
@@ -108,6 +117,16 @@ namespace SpaceDefence
                 _gameObjects.Remove(gameObject);
             }
             _toBeRemoved.Clear();
+        }
+
+        public void GameOver()
+        {
+            _state = GameState.GameOver;
+        }
+
+        public void UpdateGameOver(GameTime gameTime)
+        {
+            _toBeAdded.Clear();
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch) 
@@ -153,4 +172,12 @@ namespace SpaceDefence
         }
 
     }
+}
+
+enum GameState
+{
+    StartMenu,
+    Running,
+    Paused,
+    GameOver
 }

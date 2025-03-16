@@ -63,7 +63,8 @@ namespace SpaceDefence
         public override bool Intersects(CircleCollider other)
         {
             // TODO Implement
-            return false;
+            float distance = Vector2.Distance(Center, other.Center);
+            return distance < (Radius + other.Radius);
         }
 
 
@@ -75,7 +76,16 @@ namespace SpaceDefence
         public override bool Intersects(RectangleCollider other)
         {
             // TODO Implement
-            return  false;
+            float closestX = Math.Clamp(Center.X, other.shape.Left, other.shape.Right);
+            float closestY = Math.Clamp(Center.Y, other.shape.Top, other.shape.Bottom);
+
+            // Compute the distance between this closest point and the circle center
+            float distanceX = Center.X - closestX;
+            float distanceY = Center.Y - closestY;
+            float distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+
+            // Check if the distance squared is less than the circle’s radius squared
+            return distanceSquared < (Radius * Radius);
         }
         /// <summary>
         /// Gets whether or not the Circle intersects the Line
