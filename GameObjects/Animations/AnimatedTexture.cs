@@ -12,32 +12,15 @@ namespace SpaceDefence;
 /// </summary>
 public class AnimatedTexture
 {
-    // Number of frames in the animation.
     private int frameCount;
-    
-    // The animation spritesheet.
     public Texture2D myTexture;
-    
-    // The number of frames to draw per second.
     private float timePerFrame;
-    
-    // The current frame being drawn.
     private int frame;
-    
-    // Total amount of time the animation has been running.
     private float totalElapsed;
-    
-    // Is the animation currently running?
     private bool isPaused;
-
-    // The current rotation, scale and draw depth for the animation.
     public float Rotation, Scale, Depth;
-    
-    // The origin point of the animated texture.
     public Vector2 Origin;
-    
     public int FrameWidth {get; private set;}
-    // = myTexture.Width / frameCount;
 
     public AnimatedTexture(Vector2 origin, float rotation, float scale, float depth)
     {
@@ -67,7 +50,6 @@ public class AnimatedTexture
         if (totalElapsed > timePerFrame)
         {
             frame++;
-            // Keep the Frame between 0 and the total frames, minus one.
             frame %= this.frameCount;
             totalElapsed -= timePerFrame;
         }

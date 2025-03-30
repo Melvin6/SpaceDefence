@@ -10,8 +10,6 @@ namespace SpaceDefence
     public class Ship : GameObject
     {
         private Texture2D ship_body;
-        private Texture2D base_turret;
-        private Texture2D laser_turret;
         private float buffTimer = 10;
         private float buffDuration = 10f;
         private RectangleCollider _rectangleCollider;
@@ -45,8 +43,6 @@ namespace SpaceDefence
         {
             // Ship sprites from: https://zintoki.itch.io/space-breaker
             ship_body = content.Load<Texture2D>("ship_body");
-            base_turret = content.Load<Texture2D>("base_turret");
-            laser_turret = content.Load<Texture2D>("laser_turret");
             _rectangleCollider.shape.Size = ship_body.Bounds.Size;
             _rectangleCollider.shape.Location -= new Point(ship_body.Width/2, ship_body.Height/2);
             Camera = new Camera(GameManager.GetGameManager().Game.GraphicsDevice.Viewport);
@@ -61,25 +57,12 @@ namespace SpaceDefence
         {
             base.HandleInput(inputManager);
             GameManager gm = GameManager.GetGameManager();
-            // target = inputManager.GetMouseWorldPosition(Camera.Transform).ToPoint();
             if(gm.GetState() == GameState.Running){
                 if(inputManager.LeftMousePress())
                 {
                     Console.WriteLine($"input: {target.ToVector2()}");
                     _weapon.Shoot(target.ToVector2());
-                    // Vector2 aimDirection = LinePieceCollider.GetDirection(GetPosition().Center, target);
-                    // Vector2 turretExit = _rectangleCollider.shape.Center.ToVector2() + aimDirection * base_turret.Height / 2f;
-                    // if (buffTimer <= 0)
-                    // {
-                    //     GameManager.GetGameManager().AddGameObject(new Bullet(turretExit, aimDirection));
-                    // }
-                    // else
-                    // {
-                    //     GameManager.GetGameManager().AddGameObject(new Laser(turretExit, target.ToVector2()));
-                    // }
                 }
-
-                // movement:
                 movement(inputManager);
             }
         }
@@ -152,6 +135,7 @@ namespace SpaceDefence
             {
                 _weapon = new BulletWeapon(position.ToVector2());
                 _weapon.Load(GameManager.GetGameManager()._content);
+                ResetCargo();
             }
 
                 base.Update(gameTime);

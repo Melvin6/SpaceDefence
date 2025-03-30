@@ -35,7 +35,7 @@ namespace SpaceDefence
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Alien || other is Supply || other is Asteroid || other is Planet)
+            if (other is Alien || other is Buff || other is Asteroid || other is Planet)
             {
                 GameManager.GetGameManager().RemoveGameObject(this);
             }

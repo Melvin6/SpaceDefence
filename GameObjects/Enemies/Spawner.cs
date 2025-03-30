@@ -7,7 +7,6 @@ public class Spawner : GameObject {
     public Type _type {get; private set;}
     private float _timer;
     private float _intervals;
-    // private float _difficulty;
 
     public Spawner( Type type, float interval){
         _type = type;
@@ -22,8 +21,6 @@ public class Spawner : GameObject {
         {
             Spawn();
             _timer = _intervals;
-            // if(_intervals >= _difficulty)
-            //     _intervals *= _difficulty;
         }
 
         base.Update(gameTime);

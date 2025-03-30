@@ -7,13 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 namespace SpaceDefence;
 public class Animation : GameObject
 {
-    // The reference to the AnimatedTexture for the character
     public AnimatedTexture animation;
-    // The rotation of the character on screen
     private const float rotation = 0;
-    // The scale of the character, how big it is drawn
     private float scale;
-    // The draw order of the sprite
     private const float depth = 0.5f;
 
     private Vector2 _position;

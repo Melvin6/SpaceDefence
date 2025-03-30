@@ -14,8 +14,7 @@ namespace SpaceDefence
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _rectangleCollider.shape.Center.ToVector2(), null, Color.Red, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            base.Draw(gameTime, spriteBatch);
+            spriteBatch.Draw(_texture, new Vector2(_rectangleCollider.shape.X, _rectangleCollider.shape.Y), null, Color.Red, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }
