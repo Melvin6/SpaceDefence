@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection.PortableExecutable;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace SpaceDefence
@@ -108,6 +109,12 @@ namespace SpaceDefence
         public bool MoveRight()
         {
             return IsKeyDown(Keys.D);
+        }
+
+        public Vector2 GetMouseWorldPosition(Matrix matrix)
+        {
+            Vector2 screenPosition = new Vector2(CurrentMouseState.X, CurrentMouseState.Y);
+            return Vector2.Transform(screenPosition, Matrix.Invert(matrix));
         }
     }
 }

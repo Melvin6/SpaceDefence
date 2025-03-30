@@ -33,9 +33,6 @@ namespace SpaceDefence
 
             // Add the starting objects to the GameManager
             _gameManager.Initialize(Content, this, player);
-            _gameManager.AddGameObject(player);
-            _gameManager.AddGameObject(new Alien());
-            _gameManager.AddGameObject(new Supply());
         }
 
         protected override void LoadContent()
@@ -46,8 +43,8 @@ namespace SpaceDefence
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            // if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //     Exit();
             _gameManager.Update(gameTime);
             base.Update(gameTime);
         }

@@ -170,10 +170,10 @@ namespace SpaceDefence
         public Vector2 GetIntersection(LinePieceCollider Other)
         {
             // TODO Implement
-             float d = (this.End.X - this.Start.X) * (Other.End.Y - Other.Start.Y) - (this.End.Y - this.Start.Y) * (Other.End.X - Other.Start.X);
+            float d = (this.End.X - this.Start.X) * (Other.End.Y - Other.Start.Y) - (this.End.Y - this.Start.Y) * (Other.End.X - Other.Start.X);
     
-            if (d == 0) 
-                return Vector2.Zero;
+            const float epsilon = 0.0001f;
+                if (Math.Abs(d) < epsilon) return Vector2.Zero;
 
             float u = ((Other.Start.X - this.Start.X) * (Other.End.Y - Other.Start.Y) - (Other.Start.Y - this.Start.Y) * (Other.End.X - Other.Start.X)) / d;
                 
