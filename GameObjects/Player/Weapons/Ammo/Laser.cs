@@ -10,10 +10,8 @@ namespace SpaceDefence
     {
 
         public Laser(Vector2 location, Vector2 target, Vector2 direction) : base (new LinePieceCollider(location,  target), Vector2.Zero, 0.25f)
-        // public Laser(LinePieceCollider linePiece,) : base (linePiece, Vector2.Zero, 0.25f)
         {
             _collider = new LinePieceCollider(location,  target);
-            Console.WriteLine($"Laser: {location}, {target}");
             SetCollider(_collider);
 
             if (_collider is LinePieceCollider linePiece)

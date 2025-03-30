@@ -50,7 +50,6 @@ namespace SpaceDefence
         public virtual void Shoot(Vector2 target)
         {
             Vector2 aimDirection = LinePieceCollider.GetDirection(_position, target);
-            // Console.WriteLine($"Shoot: {target}, {aimDirection}");
             GameObject newObject = (GameObject)Activator.CreateInstance(_ammo, _position, target, aimDirection);
             GameManager.GetGameManager().AddGameObject(newObject);
         }
